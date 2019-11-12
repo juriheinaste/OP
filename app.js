@@ -16,4 +16,16 @@ sisu = document.URL;
 sisu = document.characterSet;
 sisu = document.contentType;
 
+// formi andmed
+sisu = document.forms;  //kõik vormid
+sisu = document.forms[0];   //esimene vorm
+sisu = document.forms[0].id //esimses vormi id
+sisu = document.forms[0].method;    //vormi töötlus
+sisu = document.forms[0].action;
+
+// linkide andmed
+sisu = document.links;  //kõik lingid
+sisu = document.links[0];   //esimene link
+sisu = document.links[0].className; //lingi klass
+sisu = document.links[0].classList; //klasside massiiv ja sealt elemendi lugemine
 console.log(sisu);
