@@ -28,4 +28,15 @@ sisu = document.links;  //kõik lingid
 sisu = document.links[0];   //esimene link
 sisu = document.links[0].className; //lingi klass
 sisu = document.links[0].classList; //klasside massiiv ja sealt elemendi lugemine
+
+
+// pildid
+sisu = document.images;
+
+// scriptid
+sisu = document.scripts;
+sisu = document.scripts[0].getAttribute ('scr');    //materjaize js
+sisu = document.scripts[1].getAttribute ('scr');    //local js
+
+
 console.log(sisu);
