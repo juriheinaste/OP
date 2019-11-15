@@ -1,41 +1,50 @@
 // document methods
-// multiple element selectors
+// node omadused ja meetodid
 
+let nimekiri = document.querySelectorAll('ul.collection');
+let nimekirjaElement = document.querySelectorAll('li.collection-item');
 
-// klassinime järgi
-let sisu = document.getElementsByClassName('collection-item');
+console.log(nimekiri);
+console.log(nimekirjaElement);
+
+nimekiri = document.querySelector('ul.collection');
+console.log(nimekiri);
+
+sisu = nimekiri.childNodes;
+sisu = nimekiri.childNodes[0];
+sisu = nimekiri.childNodes[0].nodeName;
+sisu = nimekiri.childNodes[3].nodeType;
+
+/*
+erinevad node tüübid
+1 - element
+2 - attribute
+3 - text
+8 - comment
+9 - document itself
+1+ - doctype
+*/
+
+sisu = nimekiri.children;
+sisu = nimekiri.children[1];
+nimekiri.children[1].textContent = 'Õpi rohkem JS';
+sisu = nimekiri.children[2].children[0].id = 'katse';
+
 console.log(sisu);
-console.log(sisu[2]);
-sisu[0].style.color ='orange';
-sisu[2].textContent = 'Õpi Arvutivõrke';
+console.log(nimekiri.children[2].children[0]);
 
-// querySelector + klassi nime järgi
-let nimekirjaElemendid = document.querySelector('ul')
-.getElementsByClassName('collection-item');
+sisu = nimekiri.firstChild; // node type
+sisu = nimekiri.firstElementChild; //value
+console.log(sisu);
 
-// elemendi nime järgi
-nimekirjaElemendid = document.getElementsByTagName('li');
+sisu = nimekiri.childElementCount;
+console.log(sisu);
 
-// teisendamin HTMLCollection massiiviks (Array)
-nimekirjaElemendid = Array.from(nimekirjaElemendid);
+nimekirjaElement = document.querySelector('li.collection-item');
+sisu = nimekirjaElement.parentNode;
+sisu = nimekirjaElement.parentElement;
+sisu = nimekirjaElement.parentElement.parentElement;
 
-// massiivi meetodide kasutamine
-nimekirjaElemendid.reverse();
-
-//console.log(nimekirjaElemendid);
-// massiivi läbimine tsükliga
-// for
-for(let i = 0; i < nimekirjaElemendid.length; i++){
-    nimekirjaElemendid[i].style.background = '#ddd';
-    nimekirjaElemendid[1].style.background = '#f4f4f4';
-    
-}
-
-// forEach
-/*nimekirjaElemendid.forEach(element => {
-    console.log(element)
-    element.style.background = '#ddd'
-}); */
-
-let nimeKiriPaaris = document.querySelectorAll('li:nth-child(even)');
-console.log(nimeKiriPaaris);
+sisu = nimekirjaElement.nextSibling; // node type
+sisu = nimekirjaElement.nextElementSibling;
+console.log(sisu);
