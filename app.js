@@ -22,7 +22,7 @@ erinevad node tüübid
 3 - text
 8 - comment
 9 - document itself
-1+ - doctype
+10 - doctype
 */
 
 sisu = nimekiri.children;
