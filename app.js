@@ -17,3 +17,11 @@ uusPealkiri.textContent = 'Uued ülesanded';
 // asenda vana pealkiri uuega
 divCardAction.replaceChild(uusPealkiri, vanaPealkiri);
 console.log(uusPealkiri);
+
+const vanaSpan = document.querySelector('span');
+const divCardContent = document.querySelector('.card-content');
+const uusUlessanne = document.createElement('h3');
+uusUlessanne.id = 'new-task';
+uusUlessanne.textContent = 'Ülesanded';
+divCardAction.replaceChild(vanaSpan, uusUlessanne);
+console.log(uusUlessanne);
