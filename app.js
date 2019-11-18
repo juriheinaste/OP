@@ -1,27 +1,15 @@
 // document methods
-// elementide asendamine
+// elementide kustutamine
 
-// leia vana element h5
-const vanaPealkiri = document.querySelector('h5');
-// leia kaart, kus antud pealkiri on
-const divCardAction = document.querySelector('.card-action');
+// leia antud DOM-is kõik li elemendid
+const liElemendid = document.querySelectorAll('li');
+// kustuta konkreetne element
+liElemendid[2].remove();
 
-// loo uus pealkiri
-const uusPealkiri = document.createElement('h3');
-// lisa id
-uusPealkiri.id = 'new-title';
-// lisa sisu
-// uusPealkiri.appendChild(document.createTextNode('Uued ülesanded'));
-uusPealkiri.textContent = 'Uued ülesanded';
+// leia antud DOM-is ul element
+const ulElement = document.querySelector('ul');
+// kustuta antud elemendist li
+// li on ul child element
+ulElement.removeChild(liElemendid[1]);
 
-// asenda vana pealkiri uuega
-divCardAction.replaceChild(uusPealkiri, vanaPealkiri);
-console.log(uusPealkiri);
-
-const vanaSpan = document.querySelector('span');
-const divCardContent = document.querySelector('.card-content');
-const uusUlessanne = document.createElement('h3');
-uusUlessanne.id = 'new-task';
-uusUlessanne.textContent = 'Ülesanded';
-divCardAction.replaceChild(vanaSpan, uusUlessanne);
-console.log(uusUlessanne);
+console.log(ulElement);
