@@ -1,34 +1,24 @@
 // sündmused
 
-const form = document.querySelector('form');
-const lisaUusYlesanne = document.getElementById('task');
-const text = document.querySelector('h5');
+// lehe kaardi pealkiri
+// document.querySelector('.card-title').addEventListener('click', function(e){
+// console.log('card-title');
+// });
 
-// kustuta lisaUusYlesanne väärtus
-lisaUusYlesanne.value = '';
+// lehe kaardi sisu 
+// document.querySelector('.card-content').addEventListener('click', function(e){
+    // console.log('card-content');
+// });
 
-// klaviatuur
-// key down
-// lisaUusYlesanne.addEventListener('keydown', syndmus);
-// key up
-// lisaUusYlesanne.addEventListener('keyup', syndmus);
-// key press
-// lisaUusYlesanne.addEventListener('keypress', syndmus);
-// focus
-// lisaUusYlesanne.addEventListener('focus', syndmus);
-// blur
-// lisaUusYlesanne.addEventListener('blur', syndmus);
-// paste
-// lisaUusYlesanne.addEventListener('paste', syndmus);
-// input
-lisaUusYlesanne.addEventListener('input', syndmus);
+// delegeerimine
 
+const kustutaYlesanne = document.querySelector('.delete-item');
+kustutaYlesanne.addEventListener('click', kustuta);
 
-function syndmus(e){
- 
-    console.log(`Sündmuse tüüp: ${e.type}`);
-    // kontrolli vormi kaudu saadetud väärtust
-    console.log(lisaUusYlesanne.value);
-    // väljastame ülesande HTML-is
-    text.innerText = lisaUusYlesanne.value;
+function kustuta(e){
+console.log('Hakkame kustutama');
+console.log(e.target.parentElement.parentElement);
+if(e.target.parentElement.classList.contains('delete-item')){
+e.target.parentElement.parentElement.remove();
+}
 }
