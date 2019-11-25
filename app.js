@@ -1,69 +1,80 @@
-// sündmused
+/* let ees = 'Jüri'
+let pere = 'Heinaste'
+let year = 1984;
+let month = 12;
+let day = 8;
 
-// bubbling
+let vanus = new Date(year, month, day);
+let praegu = Date.now();
 
-// lehe kaardi pealkiri
-// document.querySelector('.card-title').addEventListener('click', function(e){
-//   console.log('card-title');
-// });
+console.log(vanus)
+*/
 
-// lehe kaardi sisu
-document.querySelector('.card-content').addEventListener('click', function(e){
-    console.log('card-content');
-  });
-  
-  // delegeerimine
-  
-  const kustutaYlesanne = document.querySelector('.delete-item');
-  kustutaYlesanne.addEventListener('click', kustuta);
-  
-  // console.log(kustutaYlesanne);
-  
-  function kustuta(e){
-     if(e.target.parentElement.classList.contains('delete-item')){
-      console.log('hakkame kustutama');
-      e.target.parentElement.parentElement.remove();
-    } 
-  // storage
-  
-  // salvestame väärtus
-  // localStorage.setItem('eesnimi', 'Anna');
-  // localStorage.setItem('perenimi', 'Karutina');
-  
-  // väärtuse eemaldamine
-  // localStorage.removeItem('nimi');
-  
-  // väärtuste lugemine
-  // const eesnimi = localStorage.getItem('eesnimi');
-  // console.log(eesnimi);
-  // const perenimi = localStorage.getItem('perenimi');
-  // console.log(perenimi);
-  
-  // eemalda kõik väärtused
-  // localStorage.clear();
-  
-  document.querySelector('form').addEventListener('submit', salvesta);
-  
-  function salvesta(e){
-    const uusYlesanne = document.getElementById('task').value;
-    let ylesanded;
-    if(localStorage.getItem('tasks') === null){
-      ylesanded = []; // tekitame massiivi, kui veel ülesandeid pole
-    } else {
-      ylesanded = JSON.parse(localStorage.getItem('tasks'));
-      // loeme LS andmed, teisendame JSON elemendiks - JS struktuuriks
-    }
-    console.log(ylesanded);
-    ylesanded.push(uusYlesanne); // lisame element massiivi lõppu
-    console.log('ulesanne lisatud');
-    localStorage.setItem('tasks', JSON.stringify(ylesanded)); // lisame andmed LS sisse
-    e.preventDefault();
+/*let eesnimi, perenimi;
+let sunnikuupaev;
+
+function taisNimi(eesnimi, perenimi){
+  return `${eesnimi} ${perenimi}`;
+}
+
+function arvutaVanus(sunnikuupaev){
+  sunnikuupaev = new Date(sunnikuupaev);
+  vaheSekundites = Date.now() - sunnikuupaev.getTime();
+  vanusDate = new Date(vaheSekundites);
+  aastaDate = vanusDate.getUTCFullYear();
+  vanus = aastaDate - 1970;
+  return `Vanus: ${vanus}`;
+}
+  console.log(taisNimi("Minu", "Nimi"));
+  console.log(arvutaVanus("1984-11-24"));
+*/
+ 
+  // inimese kirjeldus OOP abil
+ // inimses konstruktor
+ /*function Isik(n, skp){
+  this.nimi = n;
+  this.synniKuupaev = new Date(skp);
+ 
+// arvuta vanus
+  this.arvutaVanus = function(){
+    const vaheSekundites = Date.now() - this.synniKuupaev.getTime();
+    const vanusDateKujul = new Date(vaheSekundites);
+    const taisAasta = vanusDateKujul.getUTCFullYear();
+    const vanus = taisAasta - 1970;
+    return vanus;
   }
-  
-  
-  
-   // loeme sisestatud ülesanded
-   const ylesanded = JSON.parse(localStorage.getItem('tasks'));
-   ylesanded.forEach(ylesanne => {
-     console.log(ylesanne);
-   });
+}
+
+ const anna = new Isik('Anna', '11-27-1980');
+ const kadi = new Isik('Kadi', '07-30-1995');
+ console.log(anna.arvutaVanus());
+ console.log(kadi.arvutaVanus());
+ */
+
+ // väljasta täisnimi
+function Isik(e, p, skp){
+  this.eesnimi = e;
+  this.perenimi = p;
+  this.synniKuupaev = new Date(skp);
+}
+
+// arvuta vanus
+
+Isik.prototype.taisNimi = function(){
+  return `${this.eesnimi} ${this.perenimi}`;
+}
+
+  // arvuta vanus
+  Isik.prototype.arvutaVanus = function(){
+    const vaheSekundites = Date.now() - this.synniKuupaev.getTime();
+    const vanusDateKujul = new Date(vaheSekundites);
+    const taisAasta = vanusDateKujul.getUTCFullYear();
+    const vanus = taisAasta - 1970;
+    return vanus;
+  }
+
+// objektid 
+const anna = new Isik('Anna', 'Karutina', '11-27-1980');
+ const kadi = new Isik('Kadi', 'Tamm', '07-30-1995');
+ console.log(anna.taisNimi(), anna.arvutaVanus());
+ console.log(kadi.taisNimi(), kadi.arvutaVanus());
