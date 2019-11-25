@@ -34,6 +34,20 @@ KL.prototype.lisaRaamatTabelisse = function(r){
   tabel.appendChild(rida);
 }
 
+// teate väljastamine
+KL.prototype.teade = function(s){
+  // loome div'i, kuhu lisame teate sõnumi
+  const div = document.createElement('div');
+  // lisame sõnumi teksti div'i sisse
+  const tekst = createTextNode(s);
+  div.appendChild(tekst);
+  // leiame elemendid, mille suhtes tuleb lisada uus element
+  const konteiner = document.querySelector('.container');
+  const vorm = document.getElementById('book-form');
+  // lisame teate dokumenti
+  konteiner.insertBefore(div, vorm);
+}
+
 //  kirjeldame raamatu lisamise sündmus
 document.getElementById('book-form').addEventListener('submit', lisaRaamat);
 // raamatu lisamise funktsioon
@@ -48,6 +62,14 @@ function lisaRaamat(e){
 
   // loome kasutaja liidese objekti temaga opereerimiseks
   const kl = new KL();
+
+  // kui andmed on puudu, siis lisada ei luba
+  if(pealkiri == '' | autor == '' | isbn == ''){
+    kl.teade('Täida kõik väljad!');
+  }else {
+    kl.lisaRaamatTabelisse(raamat);
+    kl.teade('Raamatud on lisatud!');
+  }
 
   // lisame raamatud tabelisse
   kl.lisaRaamatTabelisse(raamat);
