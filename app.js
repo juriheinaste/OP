@@ -38,14 +38,20 @@ KL.prototype.lisaRaamatTabelisse = function(r){
 KL.prototype.teade = function(s){
   // loome div'i, kuhu lisame teate sõnumi
   const div = document.createElement('div');
+  div.className = 'alert';
   // lisame sõnumi teksti div'i sisse
-  const tekst = createTextNode(s);
+  const tekst = document.createTextNode(s);
   div.appendChild(tekst);
   // leiame elemendid, mille suhtes tuleb lisada uus element
   const konteiner = document.querySelector('.container');
   const vorm = document.getElementById('book-form');
   // lisame teate dokumenti
   konteiner.insertBefore(div, vorm);
+
+  // kustutame teate 5 sekundi möödumisel
+  setTimeout(function(){
+    document.querySelector('.alert').remove()
+  }, 5000);
 }
 
 //  kirjeldame raamatu lisamise sündmus
@@ -77,6 +83,8 @@ function lisaRaamat(e){
   // puhastame väljad sisestatud andmed
 
   kl.puhastaSisend();
+
+
 
   e.preventDefault();
 }
