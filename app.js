@@ -1,18 +1,18 @@
- // Raamatu konstruktor
- function Raamat(a, p, i){
-   this.autor = a;
-   this.pealkiri = p;
-   this.isbn = i;
- }
+// Raamatu konstruktor
+function Raamat(a, p, i){
+  this.autor = a;
+  this.pealkiri = p;
+  this.isbn = i;
+}
 
- // kasutajaliides - KL
-//  konstruktor
+// Kasutaja liides - KL
+// konstruktor
 function KL() {
 
 }
 
-// KL funktsioonaal
-// väljade puhastamine
+// KL funktsionaal
+// sisendväljade puhastamine
 KL.prototype.puhastaSisend = function(){
   document.getElementById('title').value = '';
   document.getElementById('author').value = '';
@@ -21,16 +21,17 @@ KL.prototype.puhastaSisend = function(){
 
 // raamatu lisamine tabelisse
 KL.prototype.lisaRaamatTabelisse = function(r){
-  // loome tabeli rea
+  console.log(r);
+  // loome tabeli rida
   const rida = document.createElement('tr');
-  // täidame rea tabeli andmetega
+  // täidame rida tabeli andmetega
   rida.innerHTML = `
-  <td>${r.pealkiri}</td>
-  <td>${r.autor}</td>
-  <td>${r.isbn}</td>
-  <td><a href="#" class="kustuta">X</a></td>  
+    <td>${r.pealkiri}</td>
+    <td>${r.autor}</td>
+    <td>${r.isbn}</td>
+    <td><a href="#" class="kustuta">X</a></td>
   `;
-// lisame rea tabelisse
+  // lisame rida tabelisse
   tabel = document.getElementById('book-list');
   tabel.appendChild(rida);
 }
@@ -44,95 +45,148 @@ KL.prototype.kustutaRaamatTabelist = function(kustutaElement){
   }
 }
 
-// teate väljastamine
+// teade väljastamine
 KL.prototype.teade = function(s, stiil){
-  // loome div'i, kuhu lisame teate sõnumi
+  // loome div, kuhu lisada teade sõnum
   const div = document.createElement('div');
   div.className = `alert ${stiil}`;
-  // lisame sõnumi teksti div'i sisse
+  // lisame sõnumi tekst divi sisse
   const tekst = document.createTextNode(s);
   div.appendChild(tekst);
   // leiame elemendid, mille suhtes tuleb lisada uus element
   const konteiner = document.querySelector('.container');
   const vorm = document.getElementById('book-form');
-  // lisame teate dokumenti
+  // lisame teade dokumendi
   konteiner.insertBefore(div, vorm);
 
-  // kustutame teate 5 sekundi möödumisel
-  setTimeout(function(){
-    document.querySelector('.alert').remove()
-  }, 5000);
+  // kustutame teade 5 sekundi möödumisel
+  setTimeout(function(){ 
+    document.querySelector('.alert').remove();
+   }, 5000);
 }
-// raamatute andmete lugemine LS-st
-KL.prototype.loeRaamatut = function(){
+
+// raamatute lugemine LS-st
+KL.prototype.loeRaamatud = function(){
+  // loome raamatute hoidla LS-s
   let raamatud;
+  // kui raamatud veel LS-s ei eksisteeri
   if(localStorage.getItem('raamatud') === null){
     raamatud = [];
-  }else{
-    // kui raamatud juba olemas, saame need kätte
+  } else {
+    // kui aga raamatud juba olemas, saame need kätte
     raamatud = JSON.parse(localStorage.getItem('raamatud'));
   }
   return raamatud;
 }
 
-// raamatu salvestamine
+// raamatu salvestamine LS-sse
 KL.prototype.salvestaRaamat = function(r){
-  // loome raamatute hoidla LS-s (localstorage)
-  raamatud = this.loeRaamatut();
+  // tekitame raamatute massiiv
+  const raamatud = this.loeRaamatud();
+  // lükame uue raamatud andmed massiivi
   raamatud.push(r);
+  // lisame andmed LS-sse
   localStorage.setItem('raamatud', JSON.stringify(raamatud));
 }
 
-//  kirjeldame raamatu lisamise sündmus
+// salvestatud raamatute näitamine
+KL.prototype.naitaRaamatud = function(){
+  // vaatame, millised raamatud on olemas
+  const raamatud = this.loeRaamatud();
+  raamatud.forEach(function(raamat){
+    // loeme andmed LS-st ühekaupa
+    // ja teisendame Raamat objektiks
+    const r = new Raamat(raamat['autor'], raamat['pealkiri'], raamat['isbn']);
+    // Loome kl objekt väljastamiseks
+    const kl = new KL();
+    // väljastame tabeli rida
+    kl.lisaRaamatTabelisse(r);
+  });
+}
+
+KL.prototype.kustutaRaamatLS = function(isbn){
+  // vaatame, millised raamatud on olemas
+  const raamatud = this.loeRaamatud();
+  raamatud.forEach(function(raamat, index){
+    // loeme andmed LS-st ühekaupa
+    // ja võrdleme
+    if(raamat.isbn === isbn){
+      raamatud.splice(index, 1); // kustutame valitud element
+    }
+  });
+  // lisame andmed LS-sse
+  localStorage.setItem('raamatud', JSON.stringify(raamatud));
+  // kinnitame kustutamist teade väljastamiseks
+  return true;
+}
+
+// kirjeldame andmete lugemise sündmust LS-st
+document.addEventListener('DOMContentLoaded', raamatuteTabel);
+
+// raamatute tabeli funktsioon
+function raamatuteTabel(e){
+  // loome kasutaja liidese objekt temaga opereerimiseks
+  const kl = new KL();
+  // kutsume raamatute näitamist funktsiooni
+  kl.naitaRaamatud();
+}
+
+// kirjeldame raamatu lisamise sündmust
 document.getElementById('book-form').addEventListener('submit', lisaRaamat);
 // raamatu lisamise funktsioon
 function lisaRaamat(e){
+  // võtame andmed vormist
   const pealkiri = document.getElementById('title').value;
   const autor = document.getElementById('author').value;
   const isbn = document.getElementById('isbn').value;
-  // loome raamatu andmete põhjal
+  // loome raamat andmete põhjal
   const raamat = new Raamat(autor, pealkiri, isbn);
-  
-  console.log(raamat);
 
-  // loome kasutaja liidese objekti temaga opereerimiseks
+  // loome kasutaja liidese objekt temaga opereerimiseks
   const kl = new KL();
 
-  // kui andmed on puudu, siis lisada ei luba
+  // kui mingid andmed on puudu, 
+  // siis anname märku
   if(pealkiri == '' | autor == '' | isbn == ''){
-    kl.teade('Täida kõik väljad!', 'invalid');
-  }else {
+    kl.teade('Tuleb täita kõik väljad!', 'invalid');
+  } else {
+    // muidu
+    // lisame sisestatud raamat tabelisse
+    console.log(raamat);
     kl.lisaRaamatTabelisse(raamat);
-    // salvesta raamatu andmed LS-sse
+    // salvestame raamatu andmed LS-sse
     kl.salvestaRaamat(raamat);
-    kl.teade('Raamatud on lisatud!', 'valid');
+    kl.teade('Raamat on lisatud!', 'valid');
   }
 
-  // lisame raamatud tabelisse
-  // kl.lisaRaamatTabelisse(raamat);
-
-  // puhastame väljad sisestatud andmed
-
+  // puhastame väljad sisestatud andmetest
   kl.puhastaSisend();
 
+  e.preventDefault();
 }
 
 // raamatu kustutamise sündmus
 document.getElementById('book-list').addEventListener('click', kustutaRaamat);
 
 function kustutaRaamat(e){
+  // loome kasutaja liidese objekt temaga opereerimiseks
   const kl = new KL();
 
-  // kutsume tabelis oleva raamatu kustutamise funktsiooni
-  kl.kustutaRaamatTabelist(e.target);
-
- //  väljastame vastava teate
-onKustutatud = kl.kustutaRaamatTabelist(e.target);
-
-
-if(onKustutatud){
-  kl.teade('Raamat on kustutatud', 'valid');
-}
-
-e.preventDefault();
+  // kutsume tabelis oleva raamatu kustutamise
+  // funktsioon
+  // loome X link, millel clickime kustutamiseks
+  const X = e.target;
+  // saame kustutava raamatu isbn kätte
+  isbn = X.parentElement.previousElementSibling.textContent;
+  // kustutame andmed tabeli väljundist
+  kl.kustutaRaamatTabelist(X);
+  // kustutame andmed LS-st
+  onKustutatud = kl.kustutaRaamatLS(isbn);
+  
+  // väljastame vastav teade
+  if(onKustutatud){
+   kl.teade('Raamat on kustutatud', 'valid');
+  }
+  
+  e.preventDefault();
 }
