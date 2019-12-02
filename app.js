@@ -28,10 +28,20 @@ KL.prototype.lisaRaamatTabelisse = function(r){
   <td>${r.pealkiri}</td>
   <td>${r.autor}</td>
   <td>${r.isbn}</td>
+  <td><a href="#" class="kustuta">X</a></td>  
   `;
 // lisame rea tabelisse
   tabel = document.getElementById('book-list');
   tabel.appendChild(rida);
+}
+
+// raamatu kustutamine tabelist
+KL.prototype.kustutaRaamatTabelist = function(kustutaElement){
+  if(kustutaElement.className === 'kustuta'){
+    tabeliRida = kustutaElement.parentElement.parentElement;
+    tabeliRida.remove();
+    return true;
+  }
 }
 
 // teate väljastamine
@@ -54,6 +64,19 @@ KL.prototype.teade = function(s, stiil){
   }, 5000);
 }
 
+// raamatu salvestamine
+KL.prototype.salvestaRaamat = function(r){
+  // loome raamatute hoidla LS-s (localstorage)
+  let raamatud;
+  if(localStorage.getItem('raamatud') === null){
+    raamatud = [];
+  }else{
+    // kui raamatud juba olemas, saame need kätte
+    raamatud = JSON.parse(localStorage.getItem('raamatud'));
+  }
+  localStorage.setItem('raamatud', JSON.stringify(raamatud));
+}
+
 //  kirjeldame raamatu lisamise sündmus
 document.getElementById('book-form').addEventListener('submit', lisaRaamat);
 // raamatu lisamise funktsioon
@@ -74,17 +97,36 @@ function lisaRaamat(e){
     kl.teade('Täida kõik väljad!', 'invalid');
   }else {
     kl.lisaRaamatTabelisse(raamat);
+    // salvesta raamatu andmed LS-sse
+    kl.salvestaRaamat
     kl.teade('Raamatud on lisatud!', 'valid');
   }
 
   // lisame raamatud tabelisse
-  kl.lisaRaamatTabelisse(raamat);
+  // kl.lisaRaamatTabelisse(raamat);
 
   // puhastame väljad sisestatud andmed
 
   kl.puhastaSisend();
 
+}
+
+// raamatu kustutamise sündmus
+document.getElementById('book-list').addEventListener('click', kustutaRaamat);
+
+function kustutaRaamat(e){
+  const kl = new KL();
+
+  // kutsume tabelis oleva raamatu kustutamise funktsiooni
+  kl.kustutaRaamatTabelist(e.target);
+
+ //  väljastame vastava teate
+onKustutatud = kl.kustutaRaamatTabelist(e.target);
 
 
-  e.preventDefault();
+if(onKustutatud){
+  kl.teade('Raamat on kustutatud', 'valid');
+}
+
+e.preventDefault();
 }
