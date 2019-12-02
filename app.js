@@ -63,10 +63,8 @@ KL.prototype.teade = function(s, stiil){
     document.querySelector('.alert').remove()
   }, 5000);
 }
-
-// raamatu salvestamine
-KL.prototype.salvestaRaamat = function(r){
-  // loome raamatute hoidla LS-s (localstorage)
+// raamatute andmete lugemine LS-st
+KL.prototype.loeRaamatut = function(){
   let raamatud;
   if(localStorage.getItem('raamatud') === null){
     raamatud = [];
@@ -74,6 +72,14 @@ KL.prototype.salvestaRaamat = function(r){
     // kui raamatud juba olemas, saame need kätte
     raamatud = JSON.parse(localStorage.getItem('raamatud'));
   }
+  return raamatud;
+}
+
+// raamatu salvestamine
+KL.prototype.salvestaRaamat = function(r){
+  // loome raamatute hoidla LS-s (localstorage)
+  raamatud = this.loeRaamatut();
+  raamatud.push(r);
   localStorage.setItem('raamatud', JSON.stringify(raamatud));
 }
 
@@ -98,7 +104,7 @@ function lisaRaamat(e){
   }else {
     kl.lisaRaamatTabelisse(raamat);
     // salvesta raamatu andmed LS-sse
-    kl.salvestaRaamat
+    kl.salvestaRaamat(raamat);
     kl.teade('Raamatud on lisatud!', 'valid');
   }
 
