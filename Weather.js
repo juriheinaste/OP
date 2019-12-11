@@ -2,7 +2,7 @@ class Weather{
     // constructor
     constructor(c){
       this.city = c;
-      this.key = '77f97b598769bf8861004c74e30ebbba';
+      this.key = 'b1744f623eae4972e39561fb4e30def4';
     }
   
     // data from API
